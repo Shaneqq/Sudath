@@ -10,11 +10,19 @@ Route::group(array('before' => 'auth'), function() {
 Route::get('/account/sign-out', array(
     'as' => 'account-sign-out',
     'uses' => 'HomeController@getSignOut'
-))->after('invalidate-browser-cache');
+));
 
+Route::get('/admin/sign-out', array(
+    'as' => 'adminaccount-sign-out',
+    'uses' => 'HomeController@adminGetSignOut'
+));
 Route::get('/lawyerhome',array(
    'as'=>'lawyer-home',
     'uses'=>'HomeController@lawyerHome'
+));
+Route::get('/adminhome',array(
+   'as'=>'admin-home',
+    'uses'=>'HomeController@adminHome'
 ));
 });
 Route::group(array('before' => 'guest'), function() {
