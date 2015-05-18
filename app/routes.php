@@ -6,6 +6,8 @@ Route::get('/', array(
 ));
 
 
+
+
 Route::group(array('before' => 'auth'), function() {
 Route::get('/account/sign-out', array(
     'as' => 'account-sign-out',
@@ -24,6 +26,36 @@ Route::get('/adminhome',array(
    'as'=>'admin-home',
     'uses'=>'HomeController@adminHome'
 ));
+
+
+
+
+Route::get('/lawyerRegistration',array(
+   'as'=>'lawyer-registration',
+    'uses'=>'HomeController@getCreate'
+));
+
+
+
+
+Route::group(array('before'=>'csrf'),function(){
+    Route::post('/create',array(
+      'as'=>'create-post',
+      'uses'=>'HomeController@postCreate'
+    ));
+  });
+
+Route::get('/create',array(
+    'as'=>'account-create',
+    'uses'=>'HomeController@getCreate'
+  ));
+
+  Route::get('/activate/{code}', array(
+    'as'  =>'account-activate',
+    'uses'  =>'HomeController@getActivate'
+  ));
+
+
 });
 Route::group(array('before' => 'guest'), function() {
 Route::group(array('before' => 'csrf'), function() {

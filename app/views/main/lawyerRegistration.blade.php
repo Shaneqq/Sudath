@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Admin | Page1</title>
-        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-        {{HTML::style('assets/bootstrap/css/bootstrap.min.css')}}
+  <head>
+    <meta charset="UTF-8">
+    <title>Admin | Page1</title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
-
-        {{HTML::style('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')}}
-
-        {{HTML::style('http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css')}}
-
-        {{HTML::style('assets/dist/css/AdminLTE.min.css')}}
-
-        {{HTML::style('assets/dist/css/skins/_all-skins.min.css')}}
+    {{HTML::style('assets/bootstrap/css/bootstrap.min.css')}}
+    {{HTML::style('https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')}}
+    {{HTML::style('http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css')}}
+    {{HTML::style('assets/dist/css/AdminLTE.min.css')}}
+    {{HTML::style('assets/dist/css/skins/_all-skins.min.css')}}
+    {{HTML::style('assets/validator/dist/css/bootstrapValidator.min.css')}}
     </head>
     <body class="skin-blue">
         <div class="wrapper">
@@ -290,13 +287,13 @@
                     <ul class="sidebar-menu">
                         <li class="header">MAIN NAVIGATION</li>
                         <li class="active"><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-                        <li class="treeview">
+                        <li class="treeview active">
                             <a href="#">
                                 <i class="fa fa-folder"></i> <span>Registration</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="{{ URL::route('lawyer-registration') }}"><i class="fa fa-circle-o"></i> Lawyer registration</a></li>
+                                <li class="active"><a href="{{ URL::route('lawyer-registration') }}"><i class="fa fa-circle-o"></i> Lawyer registration</a></li>
                                 <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Vehicle registration</a></li>
                                 <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Driver registration</a></li>
                             </ul>
@@ -317,14 +314,58 @@
                 </section>
 
                 <!-- Main content -->
-                <section class="content">
+        <section class="content">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+            <div class="box box-primary">
+                <div class="box-header">
+                  <h3 class="box-title">Lawyer Registration</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form id="registrationForm" action="{{ URL::route('create-post') }}" method="post">
+                    <div class="box-body">
+                    <div class="form-group">
+                        Email: <input type="text" name="email" class="form-control" placeholder="Enter email" {{ (Input::old('email')) ? ' value="' . e(Input::old('email')) . '" ' : '' }}>
+                        @if($errors->has('email'))
+                            {{ $errors->first('email') }}
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        Usename: <input type="text" name="username" class="form-control" placeholder="Enter username" {{ (Input::old('username')) ? ' value="' . e(Input::old('username')) . '" ' : '' }}>
+                        @if($errors->has('username'))
+                            {{ $errors->first('username') }}
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        Password: <input type="password" name="password" class="form-control" placeholder="Enter password">
+                        @if($errors->has('password'))
+                            {{ $errors->first('password') }}
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        Password again: <input type="password" name="password_again" class="form-control" placeholder="Confirm password">
+                        @if($errors->has('password_again'))
+                            {{ $errors->first('password_again') }}
+                        @endif
+                    </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                    {{ Form::token() }}
+                </div>
+                </form>
+            </div><!-- /.box -->
+            </div>
+            <div class="col-sm-2">
+            </div>
+            </div>
 
 
-
-
-
-
-                </section><!-- /.content -->
+        </section><!-- /.content -->
             </div><!-- /.content-wrapper -->
             <footer class="main-footer">
                 <div class="pull-right hidden-xs">
@@ -335,16 +376,92 @@
         </div><!-- ./wrapper -->
 
 {{HTML::script('assets/plugins/jQuery/jQuery-2.1.3.min.js')}}
-        
-        {{HTML::script('assets/bootstrap/js/bootstrap.min.js')}}
-        
-        {{HTML::script('assets/plugins/slimScroll/jquery.slimscroll.min.js')}}
-        
-        {{HTML::script('assets/plugins/fastclick/fastclick.min.js')}}
-       
-        {{HTML::script('assets/dist/js/app.min.js')}}
-        
-        {{HTML::script('assets/dist/js/demo.js')}}
+    {{HTML::script('assets/bootstrap/js/bootstrap.min.js')}}
+    {{HTML::script('assets/plugins/slimScroll/jquery.slimscroll.min.js')}}
+    {{HTML::script('assets/plugins/fastclick/fastclick.min.js')}}
+    {{HTML::script('assets/dist/js/app.min.js')}}
+    {{HTML::script('assets/dist/js/demo.js')}}
+    {{HTML::script('assets/validator/dist/js/bootstrapValidator.min.js')}}
+    <script>
+    $(document).ready(function() {
+        $('#registrationForm').bootstrapValidator({
+            // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                username: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The username is required and cannot be empty'
+                        },
+                        stringLength: {
+                          min: 6,
+                          max: 30,
+                          message: 'The username must be more than 6 and less than 30 characters long'
+                      },
+                      regexp: {
+                          regexp: /^[a-zA-Z0-9]+$/,
+                          message: 'The username can only consist of alphabetical and number'
+                      },
+                      remote: {
+                        message: 'The username is not available',
+                        url: 'assets/validator/userValidate.php',
+                        type: "post",
+                        data: {
+                          username: function() {
+                            return $("#username").val();
+                          }
+                        }
+                      }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The email is required and cannot be empty'
+                        },
+                        emailAddress: {
+                          message: 'The email address is not a valid'
+                      },
+                      regexp: {
+                          regexp: /^[a-zA-Z0-9.@]+$/,
+                          message: 'The nic or passport can only consist of alphabetical and number'
+                      }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required and cannot be empty'
+                        },
+                        different: {
+                        field: 'username',
+                        message: 'The password cannot be the same as username'
+                      },
+                      stringLength: {
+                          min: 8,
+                          message: 'The password must have at least 8 characters'
+                      },
+                    }
+                },
+              password_again: {
+                  validators: {
+                      identical: {
+                          field: 'password',
+                          message: 'The password and its confirm are not the same'
+                      },
+                      notEmpty: {
+                            message: 'The confirm password is required and cannot be empty'
+                        }
+                  }
+              }
+            }
+        });
+    });
+</script>
        
         
 
