@@ -27,6 +27,11 @@ Route::get('/adminhome',array(
     'uses'=>'HomeController@adminHome'
 ));
 
+Route::post('executeCheck',array(
+    'as'=>'executeCheck',
+    'uses'=>'HomeController@executeCheck'
+));
+
 
 
 

@@ -172,5 +172,20 @@ class HomeController extends BaseController {
         //Session::flush();
         return Redirect::route('home');
     }
+    
+    public function executeCheck(){
+        $isAvailable = true;
+        $input = Input::get('email');
+        $users = User::all();
+        foreach ($users as $u){
+            if(Str::is(Str::lower($u->email),Str::lower($input))){
+                $isAvailable = false;
+                break;
+            }
+        }
+        echo json_encode(array(
+    'valid' => $isAvailable,
+));
+    }
 
 }

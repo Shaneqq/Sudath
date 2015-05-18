@@ -405,17 +405,8 @@
                       regexp: {
                           regexp: /^[a-zA-Z0-9]+$/,
                           message: 'The username can only consist of alphabetical and number'
-                      },
-                      remote: {
-                        message: 'The username is not available',
-                        url: 'assets/validator/userValidate.php',
-                        type: "post",
-                        data: {
-                          username: function() {
-                            return $("#username").val();
-                          }
-                        }
                       }
+                     
                     }
                 },
                 email: {
@@ -429,6 +420,19 @@
                       regexp: {
                           regexp: /^[a-zA-Z0-9.@]+$/,
                           message: 'The nic or passport can only consist of alphabetical and number'
+                      },
+                       remote: {
+                        message: 'Email already exists',
+                        //url: 'assets/validator/userValidate.php',
+                        
+                        url: 'http://localhost/Sudath/public/executeCheck',
+                       
+                        type: "post",
+                        data: {
+                          email: function() {
+                            return $("#email").val();
+                          }
+                        }
                       }
                     }
                 },
